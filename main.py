@@ -32,19 +32,13 @@ print("Mean: ", mean)
 print("Frequency:", mean / 870)
 
 counts_sort = sorted(counts)
-print(counts_sort)
 k = list(Counter(counts_sort).keys())
-print(k)
 v = list(Counter(counts_sort).values())
 
 kvs = {}
 
 for i in range(len(k)):
     kvs[k[i]] = v[i]
-
-print(k[0], k[len(k) - 1])
-for i in range(len(k)):
-    print(k[i], v[i])
 
 mx = 339 * 2
 
@@ -60,6 +54,7 @@ while True:
     for i in range(len(k)):
         r = pygame.draw.rect(screen, (255, 255, 255), pygame.Rect(k[i] * 2, height - v[i], 2, v[i]))
     pygame.draw.line(screen, (255, 0, 0), (339 * 2, 0), (339 * 2, height))
+    pygame.draw.line(screen, (0, 255, 0), (mean * 2, 0), (mean * 2, height))
     font = pygame.font.SysFont("arial", 20)
     tx = font.render(str(math.floor(mx / 2)), True, (255, 255, 255))
     if math.floor(math.floor(mx / 2)) in k:
