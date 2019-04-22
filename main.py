@@ -11,7 +11,7 @@ screen = pygame.display.set_mode(size)
 cases = []
 counts = []
 
-for j in range(1000):
+for j in range(10000):
     cases.append([])
     c = 0
     for i in range(870):
@@ -37,17 +37,35 @@ k = list(Counter(counts_sort).keys())
 print(k)
 v = list(Counter(counts_sort).values())
 
+kvs = {}
+
+for i in range(len(k)):
+    kvs[k[i]] = v[i]
+
 print(k[0], k[len(k) - 1])
 for i in range(len(k)):
     print(k[i], v[i])
+
+mx = 339 * 2
 
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
-    screen.fill((255, 255, 255))
+    mouse_state = pygame.mouse.get_pressed()
+    if mouse_state[0] == 1:
+        mx = pygame.mouse.get_pos()[0]
+    screen.fill((0, 0, 0))
+    pygame.draw.rect(screen, (70, 70, 70), pygame.Rect(math.floor(mx / 2) * 2, 0, 2, height))
     for i in range(len(k)):
-        pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(k[i] * 2, 0, 10, height - v[i] * 10))
-    # pygame.draw.line(screen, (255, 0, 0,), (0, height - 339), (width, height - 339))
-    # pygame.draw.line(screen, (0, 0, 255,), (0, height - mean), (width, height - mean))
+        r = pygame.draw.rect(screen, (255, 255, 255), pygame.Rect(k[i] * 2, height - v[i], 2, v[i]))
+    pygame.draw.line(screen, (255, 0, 0), (339 * 2, 0), (339 * 2, height))
+    font = pygame.font.SysFont("arial", 20)
+    tx = font.render(str(math.floor(mx / 2)), True, (255, 255, 255))
+    if math.floor(math.floor(mx / 2)) in k:
+        th = font.render(str(kvs[math.floor(mx / 2)]), True, (255, 255, 255))
+    else:
+        th = font.render("0", True, (255, 255, 255))
+    screen.blit(tx, (mx + 10, 30))
+    screen.blit(th, (mx + 10, 60))
     pygame.display.flip()
